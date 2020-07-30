@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>
+      Arrays & Functions
+    </title>
+  </head>
+  <style>
+    .wrapper {
+      max-width: 80%;
+      margin: 0 auto;
+    }
+  </style>
+  <body>
+    <div class="wrapper">
+      <p>
+        JavaScript програма для перевірки успішності студентів з груп GROUP1,
+        GROUP2, GROUP3 з різними оцінками (значення рандомні) та виводуння  інформації по рейтингам на екран</br>
+         Оцінки:<br>
+          Хороші студенти: 89-100 <br>
+          Середні студенти: 65-88 <br>
+        Слабкі студенти: 0-64 <br>
+      </p>
+      <br>
+
+      <ul>
+        Вхідні дані:
+        <li>Масиви group1, group2, group3 з числами від 0 до 100</li>
+        <li>
+          Дві глобальні змінні averagePoint = 65 (середні результати),hightPoint
+          = 89 (найкращі результати)
+        </li>
+      </ul>
+      <br />
+   
+    <script>
+      var group1 = [];
+      var group2 = [];
+      var group3 = [];
+      var averagePoint = 65;
+      var hightPoint = 89;
+
+      /*=================Початкові дані (ініціалізація)================================*/
+      function inputData() {
+        initMarkInGroup(group1, 10);
+        initMarkInGroup(group2, 7);
+        initMarkInGroup(group3, 12);
+        document.write(`<br><h2>Вхідні дані:</h2>`);
+        printInputDate(group1, "GROUP1");
+        printInputDate(group2, "GROUP2");
+        printInputDate(group3, "GROUP3");
+
+        /*=================Заповнення оцінками таблиці групи студентів================================*/
+        function initMarkInGroup(arrGroup, n) {
+          var k;
+          for (let i = 0; i < n; i++) {
+            k = Math.floor(Math.random() * 101);
+            arrGroup.push(k);
+          }
+          return arrGroup;
+        }
+        /*=================Виведдення початкових масивів з рандомними оцінками================================*/
+        function printInputDate(arrGroup, nameGroup) {
+          document.write(`${nameGroup}<br><hr>`);
+          for (let i = 0; i < arrGroup.length; i++) {
+            document.write(` ${i + 1})  ${arrGroup[i]}<br>`);
+          }
+        }
+      }
+
+      /*=================Об'єднання оцінок в одну таблицю ================================*/
+      function initStydent() {
+        var studentAll = [].concat(...arguments);
+
+        return studentAll;
+      }
+
+      /*=================Сортування оцінок студентів і створення фінального масиву================================*/
+      function sortedStudent(avgPoint, hiPoint, arrStudent) {
+        var studentBad = arrStudent.filter((mark) => {
+          return mark < avgPoint;
+        });
+        var studentNorm = arrStudent.filter((mark) => {
+          return mark >= avgPoint && mark < hiPoint;
+        });
+        var studentGood = arrStudent.filter((mark) => {
+          return mark >= hiPoint;
+        });
+        var arrStudentSort = Array.of(studentGood, studentNorm, studentBad);
+
+        return arrStudentSort;
+      }
+
+      /*=================Виведення кінцевих результатів================================*/
+      function outputStudent(studentSortedMark) {
+        document.write(`<br><h2>Результат</h2>`);
+        for (let i = 0; i < studentSortedMark.length; i++) {
+          if (i == 0) document.write("<br><h3>Good Students</h3> <hr>");
+          else if (i == 1)
+            document.write("<br><br><h3> Norm Students </h3><hr>");
+          else if (i == 2) document.write("<br><br><h3>Bad Students</h3><hr>");
+          for (let j = 0; j < studentSortedMark[i].length; j++) {
+            document.write(` ${j + 1}) ${studentSortedMark[i][j]}<br>`);
+          }
+        }
+      }
+      /* =========== Кроки виконання =========== */
+      inputData();
+      var allStudent = initStydent(group1, group2, group3);
+
+      var studentSortedMark = sortedStudent(
+        averagePoint,
+        hightPoint,
+        allStudent
+      );
+      outputStudent(studentSortedMark);
+    </script>
+     </div>
+  </body>
+</html>
